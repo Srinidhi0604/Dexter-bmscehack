@@ -3,12 +3,14 @@ import json
 import yaml
 import cv2
 import numpy as np
+import torch
 from pathlib import Path
 from ultralytics import YOLO
 
 from trafficlab.projection.g_projection import GProjection
 from trafficlab.motion.kinematics import TrackSmoother
 from trafficlab.io.replay_writer import ReplayWriter
+from modules.metrics import compute_metrics, detect_congestion, classify_vehicle_counts
 
 
 class InferencePipeline:
@@ -126,7 +128,15 @@ class InferencePipeline:
         # Run Loop
         results = model.track(
             source=self.footage_path,
-            device=full_config['model']['device'],
+            device=(
+                "cpu"
+                if (
+                    str(full_config['model'].get('device', 'cpu')).strip().lower().startswith("cuda")
+                    or str(full_config['model'].get('device', 'cpu')).strip().isdigit()
+                )
+                and not torch.cuda.is_available()
+                else full_config['model'].get('device', 'cpu')
+            ),
             persist=True,
             verbose=False,
             stream=True,
@@ -235,7 +245,17 @@ class InferencePipeline:
                 }
                 frame_objects.append(obj_data)
 
-            out_data['frames'].append({"frame_index": i, "objects": frame_objects})
+            frame_metrics = compute_metrics(frame_objects)
+            frame_congestion = detect_congestion(frame_metrics)
+            frame_class_counts = classify_vehicle_counts(frame_objects)
+
+            out_data['frames'].append({
+                "frame_index": i,
+                "objects": frame_objects,
+                "metrics": frame_metrics,
+                "congestion": frame_congestion,
+                "class_counts": frame_class_counts,
+            })
             self.progress_fn(int((i / frames_to_process) * 100))
 
         cap.release()
