@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function BoolRow({ label, checked, onChange }) {
   return (
@@ -82,6 +83,9 @@ function ListFilesModal({ files, onClose }) {
 }
 
 export default function Visualization() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const [files, setFiles] = useState([]);
   const [selectedPath, setSelectedPath] = useState("");
   const [loadedPath, setLoadedPath] = useState("");
@@ -165,6 +169,14 @@ export default function Visualization() {
   useEffect(() => {
     fetchFiles();
   }, []);
+
+  useEffect(() => {
+    const queryPath = new URLSearchParams(location.search).get("path");
+    if (!queryPath) return;
+    setSelectedPath(queryPath);
+    setLoadedPath(queryPath);
+    fetchMeta(queryPath);
+  }, [location.search]);
 
   useEffect(() => {
     if (!streaming) return;
@@ -351,6 +363,8 @@ export default function Visualization() {
     startFrame,
     streamNonce,
   ]);
+
+  const analysisPath = loadedPath || selectedPath;
 
   return (
     <>
@@ -697,6 +711,26 @@ export default function Visualization() {
                   onClick={() => setVerticalSplit((v) => !v)}
                 >
                   {verticalSplit ? "Horizontal" : "Vertical"}
+                </button>
+              </div>
+              <div style={{ display: "flex", gap: 8, marginBottom: 10 }}>
+                <button
+                  className="btn btn-primary btn-sm"
+                  disabled={!analysisPath}
+                  onClick={() =>
+                    navigate(`/ai-analytics?path=${encodeURIComponent(analysisPath || "")}`)
+                  }
+                >
+                  AI Analytics
+                </button>
+                <button
+                  className="btn btn-ghost btn-sm"
+                  disabled={!analysisPath}
+                  onClick={() =>
+                    navigate(`/junction-report?path=${encodeURIComponent(analysisPath || "")}`)
+                  }
+                >
+                  Junction Report
                 </button>
               </div>
               <div
