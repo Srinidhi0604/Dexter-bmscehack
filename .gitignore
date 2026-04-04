@@ -5,3 +5,7 @@
 # Virtual environments
 .venv310/
 .wslvenv/
+
+# Frontend artifacts
+web/node_modules/
+web/dist/
