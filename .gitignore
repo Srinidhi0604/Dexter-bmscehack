@@ -1,0 +1,29 @@
+﻿# Python
+__pycache__/
+**/__pycache__/
+*.py[cod]
+
+# Virtual environments
+.venv310/
+.wslvenv/
+
+# Node / Frontend
+node_modules/
+web/node_modules/
+
+# Large project folders (VERY IMPORTANT)
+location/
+models/
+output/
+
+# Large file types
+*.mp4
+*.pt
+*.gz
+
+# Build folders
+dist/
+build/
+
+# Env files
+.env
