@@ -5,6 +5,11 @@
 # Virtual environments
 .venv310/
 .wslvenv/
+.venv/
+venv/
+
+# Local runtime/tool artifacts
+.gradio/
 
 # Frontend artifacts
 web/node_modules/
