@@ -90,7 +90,7 @@ export default function Visualization() {
   const [streaming, setStreaming] = useState(false);
   const [showFileList, setShowFileList] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [verticalSplit, setVerticalSplit] = useState(false);
+  const [verticalSplit, setVerticalSplit] = useState(true);
   const [streamNonce, setStreamNonce] = useState(0);
 
   const [fps, setFps] = useState(30);
@@ -340,13 +340,6 @@ export default function Visualization() {
       {showFileList && (
         <ListFilesModal files={files} onClose={() => setShowFileList(false)} />
       )}
-
-      <div className="page-header">
-        <div className="page-title">VISUALIZATION</div>
-        <div className="page-subtitle">
-          CCTV + SATELLITE REPLAY WITH PYTHON-GUI CONTROLS
-        </div>
-      </div>
 
       <div className="page-body fade-in" style={{ display: "flex", gap: 14 }}>
         <button

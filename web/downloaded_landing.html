@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TrafficLab | Precision Traffic Orchestration</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&amp;family=Manrope:wght@400;500;600&amp;family=Inter:wght@400;500;600&amp;family=Fira+Code&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-fixed-dim": "#00e297",
+                      "on-secondary-container": "#d5b5ff",
+                      "inverse-on-surface": "#2e3037",
+                      "on-tertiary-fixed": "#002112",
+                      "on-surface": "#e2e2eb",
+                      "surface-container-highest": "#33343b",
+                      "on-secondary-fixed": "#290055",
+                      "tertiary-container": "#00ed9f",
+                      "on-primary": "#00363d",
+                      "surface-dim": "#111319",
+                      "surface-bright": "#373940",
+                      "on-background": "#e2e2eb",
+                      "surface-container-low": "#191b22",
+                      "on-surface-variant": "#bac9cc",
+                      "on-secondary-fixed-variant": "#6200bc",
+                      "on-primary-container": "#00626e",
+                      "surface-container-high": "#282a30",
+                      "surface-tint": "#00daf3",
+                      "secondary-container": "#6e06d0",
+                      "primary-fixed": "#9cf0ff",
+                      "tertiary": "#a6ffcd",
+                      "surface-variant": "#33343b",
+                      "on-secondary": "#450086",
+                      "on-primary-fixed-variant": "#004f58",
+                      "primary-container": "#00e5ff",
+                      "inverse-primary": "#006875",
+                      "on-tertiary-container": "#006642",
+                      "error": "#ffb4ab",
+                      "primary-fixed-dim": "#00daf3",
+                      "on-tertiary-fixed-variant": "#005234",
+                      "secondary": "#d8b9ff",
+                      "error-container": "#93000a",
+                      "surface": "#111319",
+                      "secondary-fixed": "#eddcff",
+                      "inverse-surface": "#e2e2eb",
+                      "primary": "#c3f5ff",
+                      "surface-container-lowest": "#0c0e14",
+                      "on-tertiary": "#003822",
+                      "tertiary-fixed": "#4dffb2",
+                      "background": "#111319",
+                      "outline-variant": "#3b494c",
+                      "on-primary-fixed": "#001f24",
+                      "outline": "#849396",
+                      "on-error-container": "#ffdad6",
+                      "surface-container": "#1e1f26",
+                      "on-error": "#690005",
+                      "secondary-fixed-dim": "#d8b9ff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "fontFamily": {
+                      "headline": ["Space Grotesk", "sans-serif"],
+                      "body": ["Manrope", "sans-serif"],
+                      "label": ["Inter", "sans-serif"],
+                      "mono": ["Fira Code", "monospace"]
+              }
+            },
+          }
+        }
+      </script>
+<style>
+        .glass-panel {
+            background: rgba(30, 31, 38, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(132, 147, 150, 0.15);
+        }
+        .glow-accent {
+            box-shadow: 0 0 20px rgba(0, 218, 243, 0.15);
+        }
+        .text-gradient-primary {
+            background: linear-gradient(135deg, #c3f5ff 0%, #00e5ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .terminal-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .terminal-scroll::-webkit-scrollbar-thumb {
+            background: rgba(0, 229, 255, 0.2);
+            border-radius: 2px;
+        }
+      </style>
+</head>
+<body class="bg-surface text-on-surface font-body overflow-x-hidden">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-slate-900/60 backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,229,255,0.06)]">
+<div class="flex justify-between items-center px-8 py-4 max-w-screen-2xl mx-auto">
+<div class="text-2xl font-bold tracking-tighter text-cyan-100 font-headline">
+                TrafficLab
+            </div>
+<div class="hidden md:flex items-center gap-10">
+<a class="text-cyan-300 font-bold border-b-2 border-cyan-300 pb-1 font-label transition-all duration-300 hover:opacity-80" href="#">Features</a>
+<a class="text-slate-400 font-medium hover:text-cyan-100 font-label transition-all duration-300 hover:opacity-80" href="#">Demo</a>
+<a class="text-slate-400 font-medium hover:text-cyan-100 font-label transition-all duration-300 hover:opacity-80" href="#">Analytics</a>
+<a class="text-slate-400 font-medium hover:text-cyan-100 font-label transition-all duration-300 hover:opacity-80" href="#">Documentation</a>
+</div>
+<div class="flex items-center gap-6">
+<button class="bg-gradient-to-r from-primary to-primary-container text-on-primary font-bold px-6 py-2.5 rounded-lg transition-all duration-200 ease-in-out scale-95 hover:scale-100 shadow-[0_0_15px_rgba(0,229,255,0.2)] font-label">
+                    Request Demo
+                </button>
+<button class="md:hidden text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</nav>
+<main>
+<!-- Hero Section -->
+<section class="relative min-h-screen flex items-center pt-20 px-8 overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover opacity-20 scale-110" data-alt="Futuristic digital city grid with glowing cyan traffic pathways and violet data nodes in a dark cinematic environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAoupFhzGl5LlJpjoC1NaaPnK3FyPD_iAUYsTr9nBtFn9Sit5FgMl5Jj8ZsZWEn6q44sJPJqZSmnr5v_L9RxkrcHzM2zsQ-1dGQMXU-tk4PHsddEEU2q-3Um66BpyrpP4qLN5tmOJ_dMNbXFp7fdEa93jMBmKUXnS8cevfwKCMVgQtzhhOp9zAE3yNKd-QaENH5wHKwgwmr02VAGhGaKEkff4KFZmHD18VAdhzGZr9UtQ2evJ9_UPf8PMiubrC6GHfqQN_QSN1etdPS"/>
+<div class="absolute inset-0 bg-gradient-to-b from-surface/0 via-surface/80 to-surface"></div>
+</div>
+<div class="relative z-10 max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center w-full">
+<div class="space-y-8">
+<div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container-high border border-outline-variant/15 text-primary text-xs font-label uppercase tracking-widest">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+                        Next-Gen Mobility Engine
+                    </div>
+<h1 class="text-6xl md:text-8xl font-bold font-headline leading-[1.1] text-on-surface tracking-tighter">
+                        Transforming <br/>
+<span class="text-gradient-primary">Traffic Intelligence</span><br/>
+                        with 3D Precision.
+                    </h1>
+<p class="text-xl text-on-surface-variant max-w-xl leading-relaxed">
+                        Orchestrate complex urban environments using high-fidelity spatial data and predictive AI modeling. Experience the future of city management in immersive three dimensions.
+                    </p>
+<div class="flex flex-wrap gap-4 pt-4">
+<button class="bg-gradient-to-r from-primary to-primary-container text-on-primary font-bold px-8 py-4 rounded-lg transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,229,255,0.3)]">
+                            Request Demo
+                        </button>
+<button class="border border-outline-variant/15 bg-surface-container-low/50 backdrop-blur-md text-on-surface font-bold px-8 py-4 rounded-lg transition-all duration-300 hover:bg-surface-container-high">
+                            Learn More
+                        </button>
+</div>
+</div>
+<div class="hidden lg:block relative">
+<div class="absolute -inset-10 bg-primary/10 blur-[120px] rounded-full"></div>
+<div class="glass-panel p-4 rounded-2xl transform rotate-3 hover:rotate-0 transition-transform duration-700">
+<img class="rounded-xl shadow-2xl" data-alt="Complex 3D topographic map of a city intersection with neon blue and violet lines representing live vehicle flow" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeG5sUh4IodiaGK-TtF1zqOclX0DnVCHD0PwYcKfZah1b4gSfFVMSL78PeXAFWe8jflDJ8_XXLQ6KN--AxdT1TENg2CMf3rwdOXHow3M_8vE_Ih0nHsNFtgeca51c7QpCtj_FP39icqwQUMJZ-QiHeACntDfmAnXubsZh2PY7-ZA1gao5fOi6xjUo0sz-imAtpslFNFGrpy4l7up4mOkMrtYrDObLirvR5qKD63nLqzsG8_X94tXx2B6rtApZbO3G-wwHR2EmCevaU"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Features Section -->
+<section class="py-32 px-8 relative">
+<div class="max-w-7xl mx-auto">
+<div class="mb-20 text-center space-y-4">
+<h2 class="text-4xl md:text-5xl font-bold font-headline">Core Infrastructure</h2>
+<p class="text-on-surface-variant max-w-2xl mx-auto">Built for precision. Designed for scale. TrafficLab provides the ultimate toolset for modern urban architects.</p>
+</div>
+<div class="grid md:grid-cols-3 gap-8">
+<!-- Feature 1 -->
+<div class="glass-panel p-10 rounded-2xl group hover:bg-surface-container-high transition-all duration-500">
+<div class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="neurology">neurology</span>
+</div>
+<h3 class="text-2xl font-bold font-headline mb-4">AI-Powered Analysis</h3>
+<p class="text-on-surface-variant leading-relaxed">Leverage deep learning algorithms to identify patterns in vehicle behavior and pedestrian flow with 99.9% accuracy.</p>
+</div>
+<!-- Feature 2 -->
+<div class="glass-panel p-10 rounded-2xl group hover:bg-surface-container-high transition-all duration-500">
+<div class="w-14 h-14 bg-secondary/10 rounded-xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-secondary text-3xl" data-icon="view_in_ar">view_in_ar</span>
+</div>
+<h3 class="text-2xl font-bold font-headline mb-4">Real-Time 3D Visualization</h3>
+<p class="text-on-surface-variant leading-relaxed">Immerse yourself in a living digital twin of your city. Monitor every lane, signal, and intersection in real-time 3D space.</p>
+</div>
+<!-- Feature 3 -->
+<div class="glass-panel p-10 rounded-2xl group hover:bg-surface-container-high transition-all duration-500">
+<div class="w-14 h-14 bg-tertiary/10 rounded-xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-tertiary text-3xl" data-icon="query_stats">query_stats</span>
+</div>
+<h3 class="text-2xl font-bold font-headline mb-4">Predictive Traffic Management</h3>
+<p class="text-on-surface-variant leading-relaxed">Anticipate congestion before it happens. Run complex 'what-if' simulations to optimize infrastructure investments.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Demo Section -->
+<section class="py-32 px-8 bg-surface-container-lowest">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col lg:flex-row gap-16 items-center">
+<div class="lg:w-1/3 space-y-6">
+<h2 class="text-4xl font-bold font-headline leading-tight">Master the <br/>Spatial Domain</h2>
+<p class="text-on-surface-variant text-lg">Our dashboard isn't just data; it's a window into the urban pulse. Experience sub-second latency and high-fidelity rendering on any device.</p>
+<ul class="space-y-4 pt-4">
+<li class="flex items-center gap-3 text-sm font-label">
+<span class="material-symbols-outlined text-primary text-xl" data-weight="fill">check_circle</span>
+                                Dynamic Heatmap Overlays
+                            </li>
+<li class="flex items-center gap-3 text-sm font-label">
+<span class="material-symbols-outlined text-secondary text-xl" data-weight="fill">check_circle</span>
+                                Autonomous Vehicle API Hooks
+                            </li>
+<li class="flex items-center gap-3 text-sm font-label">
+<span class="material-symbols-outlined text-tertiary text-xl" data-weight="fill">check_circle</span>
+                                Multi-Layer Signal Syncing
+                            </li>
+</ul>
+</div>
+<div class="lg:w-2/3 w-full">
+<div class="relative glass-panel p-3 rounded-2xl shadow-2xl overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+<img class="rounded-xl w-full h-auto" data-alt="Sophisticated dark-themed data dashboard with 3D wireframe traffic maps, glowing line graphs, and emerald green status indicators" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA67fG74wwQKEy2t640WTQOdUOF39J9AzM0dCPj-20fdAQInm0Y_mjrhlaFISE9gg7TQJ1NHiefxgxJSB851L-C4MsbCAPuc7lZHNKwZJhDrZ6Lo0KrOnSKGpzHxCrbIFfk7ALejz3eXzzFxt9yREekIYLSdfMqn4DGeSIl9axBwSmiFiIYkiiZ14KyGuWhclf17BXr5ozu0COwinp1dGvWXwHclKxclpuRtxX2fTu21KDmB4FMSMq2lojWW3tU6URSYgxzkiC8VQI5"/>
+<!-- Overlay UI elements for cinematic depth -->
+<div class="absolute top-10 right-10 glass-panel p-4 rounded-xl border border-primary/20 animate-pulse hidden md:block">
+<div class="text-[10px] text-primary font-label mb-1">LIVE THROUGHPUT</div>
+<div class="text-2xl font-headline font-bold">14.2 GB/s</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Terminal Section -->
+<section class="py-32 px-8">
+<div class="max-w-5xl mx-auto">
+<div class="text-center mb-12">
+<h2 class="text-3xl font-bold font-headline mb-4">Developer First Architecture</h2>
+<p class="text-on-surface-variant">Extensible, resilient, and built for high-throughput stream processing.</p>
+</div>
+<div class="bg-[#0c0e14] rounded-xl overflow-hidden border border-outline-variant/15 shadow-2xl">
+<div class="bg-surface-container-high px-4 py-3 flex items-center justify-between">
+<div class="flex gap-2">
+<div class="w-3 h-3 rounded-full bg-red-500/30"></div>
+<div class="w-3 h-3 rounded-full bg-amber-500/30"></div>
+<div class="w-3 h-3 rounded-full bg-emerald-500/30"></div>
+</div>
+<div class="text-[10px] font-label text-on-surface-variant/50 uppercase tracking-widest">trafficlab-analytics-v4.2</div>
+</div>
+<div class="p-8 font-mono text-sm terminal-scroll overflow-x-auto leading-relaxed">
+<div class="flex gap-4">
+<span class="text-slate-600 select-none">01</span>
+<span><span class="text-secondary">import</span> { <span class="text-primary">TrafficEngine</span> } <span class="text-secondary">from</span> <span class="text-tertiary">'@trafficlab/core'</span>;</span>
+</div>
+<div class="flex gap-4">
+<span class="text-slate-600 select-none">02</span>
+<span> </span>
+</div>
+<div class="flex gap-4">
+<span class="text-slate-600 select-none">03</span>
+<span><span class="text-secondary">const</span> <span class="text-primary">orchestrator</span> = <span class="text-secondary">new</span> <span class="text-primary">TrafficEngine</span>({</span>
+</div>
+<div class="flex gap-4">
+<span class="text-slate-600 select-none">04</span>
+<span>  precision: <span class="text-tertiary">'ultra-high'</span>,</span>
+</div>
+<div class="flex gap-4">
+<span class="text-slate-600 select-none">05</span>
+<span>  rendering: <span class="text-tertiary">'webgl-3d'</span>,</span>
+</div>
+<div class="flex gap-4">
+<span class="text-slate-600 select-none">06</span>
+<span>  prediction_window: <span class="text-secondary">3600</span> <span class="text-slate-500">// 1 hour future modeling</span></span>
+</div>
+<div class="flex gap-4">
+<span class="text-slate-600 select-none">07</span>
+<span>});</span>
+</div>
+<div class="flex gap-4">
+<span class="text-slate-600 select-none">08</span>
+<span> </span>
+</div>
+<div class="flex gap-4">
+<span class="text-slate-600 select-none">09</span>
+<span><span class="text-primary">orchestrator</span>.<span class="text-secondary">connect</span>(<span class="text-tertiary">'wss://stream.trafficlab.ai/v1/grid_alpha'</span>);</span>
+</div>
+<div class="flex gap-4">
+<span class="text-slate-600 select-none">10</span>
+<span><span class="text-primary">orchestrator</span>.<span class="text-secondary">on</span>(<span class="text-tertiary">'anomaly'</span>, (<span class="text-primary">event</span>) =&gt; {</span>
+</div>
+<div class="flex gap-4">
+<span class="text-slate-600 select-none">11</span>
+<span>  <span class="text-primary">console</span>.<span class="text-secondary">log</span>(<span class="text-tertiary">`Congestion detected at ${event.coordinates}`</span>);</span>
+</div>
+<div class="flex gap-4">
+<span class="text-slate-600 select-none">12</span>
+<span>  <span class="text-primary">reroute</span>(<span class="text-primary">event</span>.<span class="text-primary">affected_nodes</span>);</span>
+</div>
+<div class="flex gap-4">
+<span class="text-slate-600 select-none">13</span>
+<span>});</span>
+</div>
+<div class="mt-6 flex gap-4 text-primary">
+<span class="text-slate-600 select-none">$</span>
+<span class="animate-pulse">_</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-slate-950 border-t border-outline-variant/10">
+<div class="flex flex-col md:flex-row justify-between items-center gap-8 px-12 py-16 w-full max-w-screen-2xl mx-auto">
+<div class="space-y-4 text-center md:text-left">
+<div class="text-xl font-bold text-cyan-400 font-headline">TrafficLab</div>
+<p class="text-slate-500 text-sm max-w-xs font-body">© 2024 TrafficLab. All rights reserved. Precision traffic orchestration.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-12">
+<div class="flex flex-col gap-3 items-center md:items-start">
+<span class="text-xs font-label text-slate-400 uppercase tracking-widest mb-2">Product</span>
+<a class="text-slate-500 hover:text-cyan-200 font-label transition-colors" href="#">Features</a>
+<a class="text-slate-500 hover:text-cyan-200 font-label transition-colors" href="#">Demo</a>
+</div>
+<div class="flex flex-col gap-3 items-center md:items-start">
+<span class="text-xs font-label text-slate-400 uppercase tracking-widest mb-2">Company</span>
+<a class="text-slate-500 hover:text-cyan-200 font-label transition-colors" href="#">Analytics</a>
+<a class="text-slate-500 hover:text-cyan-200 font-label transition-colors" href="#">Privacy Policy</a>
+</div>
+<div class="flex flex-col gap-3 items-center md:items-start">
+<span class="text-xs font-label text-slate-400 uppercase tracking-widest mb-2">Resources</span>
+<a class="text-slate-500 hover:text-cyan-200 font-label transition-colors" href="#">Documentation</a>
+<a class="text-slate-500 hover:text-cyan-200 font-label transition-colors" href="#">API Status</a>
+</div>
+</div>
+<div class="flex flex-col gap-4 items-center md:items-end">
+<a class="text-cyan-300 font-bold hover:text-cyan-400 transition-colors" href="#">Contact Support</a>
+<div class="flex gap-4">
+<a class="text-slate-500 hover:text-cyan-300 transition-colors" href="#"><span class="material-symbols-outlined">share</span></a>
+<a class="text-slate-500 hover:text-cyan-300 transition-colors" href="#"><span class="material-symbols-outlined">hub</span></a>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

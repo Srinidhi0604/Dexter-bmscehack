@@ -2,6 +2,7 @@ import os
 import re
 import json
 import gzip
+import zlib
 import time
 import math
 import hashlib
@@ -36,8 +37,27 @@ def _safe_out_path(rel_path: str) -> str:
 
 def _load_replay(path: str) -> dict:
     if path.endswith(".gz"):
-        with gzip.open(path, "rt", encoding="utf-8") as f:
-            return json.load(f)
+        try:
+            with gzip.open(path, "rt", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception as gz_err:
+            # Some replay files contain trailing non-gzip bytes after a valid gzip member.
+            # Parse the first member only so visualization still works.
+            try:
+                with open(path, "rb") as f:
+                    raw = f.read()
+                dec = zlib.decompressobj(16 + zlib.MAX_WBITS)
+                payload = dec.decompress(raw) + dec.flush()
+                return json.loads(payload.decode("utf-8"))
+            except Exception:
+                pass
+
+            # Handle mislabeled .json.gz files that are plain JSON.
+            try:
+                with open(path, "r", encoding="utf-8") as f:
+                    return json.load(f)
+            except Exception:
+                raise gz_err
     with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
 
