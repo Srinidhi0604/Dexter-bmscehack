@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
 
 function BoolRow({ label, checked, onChange }) {
   return (
@@ -83,9 +82,6 @@ function ListFilesModal({ files, onClose }) {
 }
 
 export default function Visualization() {
-  const location = useLocation();
-  const navigate = useNavigate();
-
   const [files, setFiles] = useState([]);
   const [selectedPath, setSelectedPath] = useState("");
   const [loadedPath, setLoadedPath] = useState("");
@@ -94,7 +90,7 @@ export default function Visualization() {
   const [streaming, setStreaming] = useState(false);
   const [showFileList, setShowFileList] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [verticalSplit, setVerticalSplit] = useState(false);
+  const [verticalSplit, setVerticalSplit] = useState(true);
   const [streamNonce, setStreamNonce] = useState(0);
 
   const [fps, setFps] = useState(30);
@@ -123,13 +119,6 @@ export default function Visualization() {
   const [speedDelay, setSpeedDelay] = useState(30);
   const [showFov, setShowFov] = useState(false);
   const [fovFillPct, setFovFillPct] = useState(25);
-
-  // Overlay toggles
-  const [showHeatmap, setShowHeatmap] = useState(false);
-  const [showIncidents, setShowIncidents] = useState(false);
-  const [showRecommendations, setShowRecommendations] = useState(false);
-  const [showDisasterZones, setShowDisasterZones] = useState(false);
-  const [showPotholeAlerts, setShowPotholeAlerts] = useState(false);
 
   const cctvRef = useRef(null);
   const satRef = useRef(null);
@@ -171,14 +160,6 @@ export default function Visualization() {
   useEffect(() => {
     fetchFiles();
   }, []);
-
-  useEffect(() => {
-    const queryPath = new URLSearchParams(location.search).get("path");
-    if (!queryPath) return;
-    setSelectedPath(queryPath);
-    setLoadedPath(queryPath);
-    fetchMeta(queryPath);
-  }, [location.search]);
 
   useEffect(() => {
     if (!streaming) return;
@@ -239,16 +220,6 @@ export default function Visualization() {
         setShowSatBox((v) => !v);
       } else if (e.key.toLowerCase() === "f") {
         setShowFov((v) => !v);
-      } else if (e.key === "8") {
-        setShowHeatmap((v) => !v);
-      } else if (e.key === "9") {
-        setShowIncidents((v) => !v);
-      } else if (e.key === "0") {
-        setShowRecommendations((v) => !v);
-      } else if (e.key.toLowerCase() === "d") {
-        setShowDisasterZones((v) => !v);
-      } else if (e.key.toLowerCase() === "p") {
-        setShowPotholeAlerts((v) => !v);
       }
     }
     window.addEventListener("keydown", onKeyDown);
@@ -297,11 +268,6 @@ export default function Visualization() {
       show_label: String(showLabel),
       show_tracking: String(showTracking),
       show_roi: String(showRoi),
-      show_heatmap: String(showHeatmap),
-      show_incidents: String(showIncidents),
-      show_recommendations: String(showRecommendations),
-      show_disaster_zones: String(showDisasterZones),
-      show_pothole_alerts: String(showPotholeAlerts),
       start_frame: String(startFrame),
       nonce: String(streamNonce),
     });
@@ -314,11 +280,6 @@ export default function Visualization() {
     showLabel,
     showTracking,
     showRoi,
-    showHeatmap,
-    showIncidents,
-    showRecommendations,
-    showDisasterZones,
-    showPotholeAlerts,
     startFrame,
     streamNonce,
   ]);
@@ -374,20 +335,11 @@ export default function Visualization() {
     streamNonce,
   ]);
 
-  const analysisPath = loadedPath || selectedPath;
-
   return (
     <>
       {showFileList && (
         <ListFilesModal files={files} onClose={() => setShowFileList(false)} />
       )}
-
-      <div className="page-header">
-        <div className="page-title">VISUALIZATION</div>
-        <div className="page-subtitle">
-          CCTV + SATELLITE REPLAY WITH PYTHON-GUI CONTROLS
-        </div>
-      </div>
 
       <div className="page-body fade-in" style={{ display: "flex", gap: 14 }}>
         <button
@@ -669,48 +621,6 @@ export default function Visualization() {
             </div>
 
             <div className="card">
-              <div className="card-title">Traffic Analysis Overlays</div>
-              <div style={{ display: "grid", gap: 7 }}>
-                <BoolRow
-                  label="Heatmap (8)"
-                  checked={showHeatmap}
-                  onChange={setShowHeatmap}
-                />
-                <BoolRow
-                  label="Incidents (9)"
-                  checked={showIncidents}
-                  onChange={setShowIncidents}
-                />
-                <BoolRow
-                  label="Recommendations (0)"
-                  checked={showRecommendations}
-                  onChange={setShowRecommendations}
-                />
-                <BoolRow
-                  label="Disaster Zones (D)"
-                  checked={showDisasterZones}
-                  onChange={setShowDisasterZones}
-                />
-                <BoolRow
-                  label="Pothole Alerts (P)"
-                  checked={showPotholeAlerts}
-                  onChange={setShowPotholeAlerts}
-                />
-              </div>
-              <div
-                style={{
-                  marginTop: 10,
-                  fontSize: 11,
-                  color: "rgba(200,216,240,0.5)",
-                }}
-              >
-                Real-time traffic analysis visualization with density mapping,
-                incident detection, congestion recommendations, disaster zoning,
-                and pothole hazard alerts.
-              </div>
-            </div>
-
-            <div className="card">
               <div className="card-title">Execution</div>
               <div style={{ display: "flex", gap: 8, marginBottom: 10 }}>
                 <button
@@ -732,26 +642,6 @@ export default function Visualization() {
                   onClick={() => setVerticalSplit((v) => !v)}
                 >
                   {verticalSplit ? "Horizontal" : "Vertical"}
-                </button>
-              </div>
-              <div style={{ display: "flex", gap: 8, marginBottom: 10, flexWrap: "wrap" }}>
-                <button
-                  className="btn btn-primary btn-sm"
-                  disabled={!analysisPath}
-                  onClick={() =>
-                    navigate(`/ai-analytics?path=${encodeURIComponent(analysisPath || "")}`)
-                  }
-                >
-                  AI Analytics
-                </button>
-                <button
-                  className="btn btn-ghost btn-sm"
-                  disabled={!analysisPath}
-                  onClick={() =>
-                    navigate(`/junction-report?path=${encodeURIComponent(analysisPath || "")}`)
-                  }
-                >
-                  Junction Report
                 </button>
               </div>
               <div

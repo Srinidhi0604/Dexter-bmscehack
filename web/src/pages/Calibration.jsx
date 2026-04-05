@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { FolderOpen } from "lucide-react";
 
 const STEPS = [
   { full: "Pick", short: "Pick" },
@@ -39,7 +40,7 @@ function FileUploadField({ label, accept, value, onChange, hint }) {
           onChange={(e) => onChange(e.target.files[0])}
         />
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <span style={{ fontSize: 18 }}>📂</span>
+          <FolderOpen size={18} className="text-muted" />
           <div>
             <div
               style={{ fontSize: 13, color: "var(--cyan)", fontWeight: 600 }}

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { FolderOpen, Film, MapPin, Plus, RefreshCw, UploadCloud, Target, Image } from "lucide-react";
 
 function FileUploadField({ label, accept, value, onChange, hint }) {
   const ref = useRef();
@@ -22,18 +23,18 @@ function FileUploadField({ label, accept, value, onChange, hint }) {
           onChange={(e) => onChange(e.target.files[0])}
         />
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <span style={{ fontSize: 20 }}>📂</span>
+          <FolderOpen size={20} className="text-muted" />
           <div>
             <div
-              style={{ fontSize: 13, color: "var(--cyan)", fontWeight: 600 }}
+              style={{ fontSize: 13, color: "var(--cyan)", fontWeight: 500 }}
             >
               {value ? value.name : `Choose ${label}`}
             </div>
             <div
               style={{
-                fontSize: 11,
-                color: "rgba(200,216,240,0.4)",
-                marginTop: 2,
+                fontSize: 12,
+                color: "#64748b",
+                marginTop: 4,
               }}
             >
               {hint}
@@ -68,10 +69,10 @@ function MultiFileUploadField({ label, accept, values, onChange, hint }) {
           onChange={(e) => onChange(Array.from(e.target.files || []))}
         />
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <span style={{ fontSize: 20 }}>🎬</span>
+          <Film size={20} className="text-muted" />
           <div>
             <div
-              style={{ fontSize: 13, color: "var(--cyan)", fontWeight: 600 }}
+              style={{ fontSize: 13, color: "var(--cyan)", fontWeight: 500 }}
             >
               {values?.length
                 ? `${values.length} file(s) selected`
@@ -79,9 +80,9 @@ function MultiFileUploadField({ label, accept, values, onChange, hint }) {
             </div>
             <div
               style={{
-                fontSize: 11,
-                color: "rgba(200,216,240,0.4)",
-                marginTop: 2,
+                fontSize: 12,
+                color: "#64748b",
+                marginTop: 4,
               }}
             >
               {hint}
@@ -314,10 +315,10 @@ export default function Location() {
               top: 20,
               width: "100%",
               textAlign: "center",
-              color: "var(--cyan)",
-              fontFamily: "var(--font-display)",
-              fontSize: 18,
-              letterSpacing: 2,
+              color: "#fff",
+              fontFamily: "var(--font-body)",
+              fontSize: 15,
+              fontWeight: 600,
             }}
           >
             {lightbox.title}
@@ -327,8 +328,9 @@ export default function Location() {
             style={{
               maxWidth: "95vw",
               maxHeight: "85vh",
-              boxShadow: "0 0 80px rgba(0,212,255,0.2)",
-              border: "1px solid var(--border-bright)",
+              borderRadius: "8px",
+              boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
+              border: "1px solid var(--border)",
             }}
             alt="Full view"
           />
@@ -344,27 +346,20 @@ export default function Location() {
           </div>
         </div>
       )}
-      <div className="page-header">
-        <div className="page-title">LOCATION</div>
-        <div className="page-subtitle">
-          MANAGE CCTV LOCATIONS, IMAGERY & FOOTAGE
-        </div>
-      </div>
-
       <div
         className="page-body fade-in"
         style={{
-          display: "grid",
-          gridTemplateColumns: "340px 1fr",
+          display: "flex",
+          flexWrap: "wrap",
           gap: 20,
-          alignItems: "start",
+          alignItems: "stretch",
         }}
       >
         {/* ─── Left: Location list + Create ─────────── */}
-        <div>
+        <div style={{ flex: "1", minWidth: "320px", maxWidth: "420px" }}>
           {/* Location List */}
           <div className="card section-gap">
-            <div className="card-title">📍 Locations</div>
+            <div className="card-title"><MapPin size={16} className="mr-2" /> Locations</div>
             {locations.length === 0 ? (
               <div
                 style={{
@@ -391,11 +386,11 @@ export default function Location() {
                       border: "1px solid",
                       borderColor:
                         selected === loc.code
-                          ? "var(--border-bright)"
+                          ? "var(--cyan)"
                           : "var(--border)",
                       background:
                         selected === loc.code
-                          ? "rgba(0,212,255,0.08)"
+                          ? "rgba(99, 102, 241, 0.05)"
                           : "var(--bg-elevated)",
                       cursor: "pointer",
                       transition: "var(--transition)",
@@ -435,7 +430,6 @@ export default function Location() {
                       {loc.has_g_projection && (
                         <span
                           className="badge badge-success"
-                          style={{ fontSize: 9, padding: "2px 6px" }}
                         >
                           G-PROJ
                         </span>
@@ -443,7 +437,6 @@ export default function Location() {
                       {loc.has_cctv && loc.has_sat && (
                         <span
                           className="badge badge-info"
-                          style={{ fontSize: 9, padding: "2px 6px" }}
                         >
                           IMAGES
                         </span>
@@ -457,13 +450,13 @@ export default function Location() {
               className="btn btn-ghost btn-sm w-full mt-16"
               onClick={loadLocations}
             >
-              ↻ Refresh
+              <RefreshCw size={14} /> Refresh
             </button>
           </div>
 
           {/* Create Location */}
           <div className="card">
-            <div className="card-title">➕ Create Location</div>
+            <div className="card-title"><Plus size={16} className="mr-2" /> Create Location</div>
             <form onSubmit={handleCreate}>
               <div className="form-group">
                 <label className="form-label">Location Code</label>
@@ -649,7 +642,7 @@ export default function Location() {
 
           <div className="card" style={{ marginTop: 20 }}>
             <div className="card-title">
-              🎞 Import Footage Into Existing Location
+              <Film size={16} className="mr-2" /> Import Footage Into Existing Location
             </div>
             <div
               style={{
@@ -723,7 +716,7 @@ export default function Location() {
         </div>
 
         {/* ─── Right: Location Detail ────────────────── */}
-        <div>
+        <div style={{ flex: "2", minWidth: "400px", display: "flex", flexDirection: "column", gap: 20 }}>
           {!selected ? (
             <div
               className="card"
@@ -761,8 +754,7 @@ export default function Location() {
               <div
                 className="card"
                 style={{
-                  background:
-                    "linear-gradient(135deg,rgba(0,212,255,0.06),rgba(124,58,237,0.06))",
+                  background: "var(--bg-surface)",
                 }}
               >
                 <div
@@ -775,21 +767,19 @@ export default function Location() {
                   <div>
                     <div
                       style={{
-                        fontFamily: "var(--font-display)",
-                        fontSize: 22,
-                        fontWeight: 700,
-                        color: "var(--cyan)",
-                        letterSpacing: 2,
+                        fontFamily: "var(--font-body)",
+                        fontSize: 16,
+                        fontWeight: 600,
+                        color: "#fff",
                       }}
                     >
                       {locDetail.code}
                     </div>
                     <div
                       style={{
-                        fontSize: 12,
-                        color: "rgba(200,216,240,0.5)",
+                        fontSize: 13,
+                        color: "#94a3b8",
                         marginTop: 4,
-                        fontFamily: "var(--font-mono)",
                       }}
                     >
                       Location Code
@@ -814,7 +804,7 @@ export default function Location() {
               {/* Images */}
               {(locDetail.cctv_url || locDetail.sat_url) && (
                 <div className="card">
-                  <div className="card-title">🖼️ Location Imagery</div>
+                  <div className="card-title"><Image size={16} className="mr-2" /> Location Imagery</div>
                   <div
                     style={{
                       display: "grid",
@@ -894,7 +884,7 @@ export default function Location() {
                   className="card-title"
                   style={{ justifyContent: "space-between" }}
                 >
-                  <span>🎥 Footage Clips</span>
+                  <span><Film size={16} className="mr-2" /> Footage Clips</span>
                   <span className="badge badge-info">
                     {locDetail.footage?.length || 0}
                   </span>
@@ -951,7 +941,7 @@ export default function Location() {
 
               {/* G-projection upload */}
               <div className="card">
-                <div className="card-title">🎯 G-Projection</div>
+                <div className="card-title"><Target size={16} className="mr-2" /> G-Projection</div>
                 {!locDetail.g_projection ? (
                   <div
                     className="alert alert-error"
@@ -993,7 +983,7 @@ export default function Location() {
                         style={{ width: 14, height: 14 }}
                       />
                     ) : (
-                      "⬆ Upload"
+                      <><UploadCloud size={14} className="mr-2" /> Upload</>
                     )}
                   </button>
                 </div>
