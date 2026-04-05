@@ -1,80 +1,5 @@
 import { useEffect, useState } from "react";
-
-const WELCOME_MD = `
-# TrafficLab 3D
-
-**AI-powered traffic analysis system** - built for drone/CCTV footage with YOLO object detection, multi-object tracking, 3D vehicle lifting and satellite map projection.
-
----
-
-## Quick Start
-
-1. **Location** - Create a location by uploading a CCTV frame and satellite image
-2. **Calibration** - Upload or verify the G-projection configuration file
-3. **Inference** - Scan your footage, select tasks, and run YOLO inference
-4. **Visualization** - Replay annotated results with live telemetry overlay
-
----
-
-## Core Features
-
-- **YOLO Vehicle Detection** - YOLOv8/v11 fine-tuned on VisDrone dataset
-- **ByteTrack Multi-Object Tracking** - persistent IDs across frames
-- **3D Bounding Box Lifting** - from 2D to geo-referenced 3D boxes
-- **Satellite Map Projection** - homography-based bird's-eye view
-- **Kinematics Engine** - speed (km/h), heading and trajectory smoothing
-- **Web Interface** - React frontend + FastAPI backend
-
----
-
-## Keyboard Shortcuts (Visualization)
-
-| Key | Action |
-|-----|--------|
-| Space | Pause / Play |
-| <- / -> | Step one frame |
-| 1 | Toggle color-by-ID |
-| 3 | Toggle 3D boxes |
-| F | Toggle FOV overlay |
-
----
-
-*Developed for BMS CE Hackathon 2026*
-`;
-
-function ShortcutsTable() {
-  const rows = [
-    ["Space", "Pause / Play"],
-    ["<- / ->", "Step one frame"],
-    ["1", "Toggle color-by-ID"],
-    ["3", "Toggle 3D boxes"],
-    ["F", "Toggle FOV overlay"],
-  ];
-  return (
-    <table className="data-table" style={{ marginTop: 8 }}>
-      <thead>
-        <tr>
-          <th>Key</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {rows.map(([k, v]) => (
-          <tr key={k}>
-            <td>
-              <code
-                style={{ fontFamily: "var(--font-mono)", color: "var(--cyan)" }}
-              >
-                {k}
-              </code>
-            </td>
-            <td>{v}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-}
+import { Terminal, Map as MapIcon, Database, Eye, Play } from 'lucide-react';
 
 export default function Welcome() {
   const [apiOk, setApiOk] = useState(null);
@@ -87,218 +12,127 @@ export default function Welcome() {
   }, []);
 
   return (
-    <>
-      <div className="page-body fade-in">
-        <div className="stat-row">
-          <div className="stat-card">
-            <div className="stat-label">API Status</div>
+    <div className="page-body fade-in">
+      <div className="stat-row" style={{ marginBottom: 24 }}>
+        <div className="stat-card">
+          <div className="stat-label">Core Engine Status</div>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 4 }}>
             <div
               style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-                marginTop: 4,
+                width: 8, height: 8, borderRadius: "50%",
+                background: apiOk === null ? "#888" : apiOk ? "#22c55e" : "#ef4444",
+                boxShadow: `0 0 12px ${apiOk === null ? "#888" : apiOk ? "#22c55e" : "#ef4444"}`
               }}
-            >
-              <div
-                style={{
-                  width: 8,
-                  height: 8,
-                  borderRadius: "50%",
-                  background:
-                    apiOk === null
-                      ? "#888"
-                      : apiOk
-                        ? "var(--green)"
-                        : "var(--red)",
-                  boxShadow: `0 0 8px ${apiOk === null ? "#888" : apiOk ? "var(--green)" : "var(--red)"}`,
-                }}
-              />
-              <span
-                className="text-mono"
-                style={{
-                  fontSize: 13,
-                  color:
-                    apiOk === null
-                      ? "#888"
-                      : apiOk
-                        ? "var(--green)"
-                        : "var(--red)",
-                }}
-              >
-                {apiOk === null ? "Checking..." : apiOk ? "Online" : "Offline"}
-              </span>
-            </div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-label">Platform</div>
-            <div className="stat-value" style={{ fontSize: 14, marginTop: 4 }}>
-              TrafficLab
-            </div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-label">Version</div>
-            <div className="stat-value" style={{ fontSize: 14, marginTop: 4 }}>
-              v1.1.0
-            </div>
+            />
+            <span className="text-mono" style={{ fontSize: 13, color: apiOk === null ? "#888" : apiOk ? "#22c55e" : "#ef4444" }}>
+              {apiOk === null ? "Pinging..." : apiOk ? "Connected. Pipeline Active" : "Offline / Unreachable"}
+            </span>
           </div>
         </div>
-
-        <div
-          style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 20 }}
-        >
-          <div>
-            <div
-              className="card section-gap"
-              style={{
-                background:
-                  "linear-gradient(135deg,rgba(0,212,255,0.06),rgba(124,58,237,0.08))",
-                borderColor: "rgba(0,212,255,0.25)",
-              }}
-            >
-              <h1
-                style={{
-                  fontFamily: "var(--font-display)",
-                  fontSize: 32,
-                  fontWeight: 900,
-                  color: "#fff",
-                  letterSpacing: 3,
-                  marginBottom: 8,
-                }}
-              >
-                TRAFFIC<span style={{ color: "var(--cyan)" }}>LAB</span> 3D
-              </h1>
-              <p
-                style={{
-                  fontSize: 14,
-                  lineHeight: 1.8,
-                  color: "rgba(200,216,240,0.75)",
-                  maxWidth: 560,
-                }}
-              >
-                AI-powered traffic analysis system built for drone/CCTV footage
-                with YOLO object detection, multi-object tracking, 3D vehicle
-                lifting and satellite map projection.
-              </p>
-            </div>
-
-            <div className="card section-gap">
-              <div className="card-title">Core Features</div>
-              {[
-                ["YOLO Detection", "YOLOv8/v11 fine-tuned on VisDrone dataset"],
-                ["ByteTrack MOT", "Persistent vehicle IDs across frames"],
-                ["3D Lifting", "Geo-referenced 3D bounding boxes from 2D"],
-                [
-                  "Satellite Projection",
-                  "Homography-based bird's-eye view mapping",
-                ],
-                [
-                  "Kinematics Engine",
-                  "Speed (km/h), heading and trajectory smoothing",
-                ],
-              ].map(([title, desc]) => (
-                <div
-                  key={title}
-                  style={{
-                    display: "flex",
-                    gap: 12,
-                    marginBottom: 12,
-                    padding: "12px 14px",
-                    background: "var(--bg-elevated)",
-                    borderRadius: "var(--radius)",
-                    border: "1px solid var(--border)",
-                  }}
-                >
-                  <div>
-                    <div
-                      style={{
-                        fontSize: 13,
-                        fontWeight: 600,
-                        color: "#e8f4ff",
-                        marginBottom: 2,
-                      }}
-                    >
-                      {title}
-                    </div>
-                    <div
-                      style={{ fontSize: 12, color: "rgba(200,216,240,0.55)" }}
-                    >
-                      {desc}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+        <div className="stat-card">
+          <div className="stat-label">Platform Core</div>
+          <div className="stat-value" style={{ fontSize: 14, marginTop: 4 }}>
+            TrafficLab Distributed
           </div>
-
-          <div>
-            <div className="card section-gap">
-              <div className="card-title">Quick Start</div>
-              {[
-                ["1", "Location", "Upload CCTV frame and satellite image"],
-                ["2", "Calibration", "Upload G-projection JSON"],
-                ["3", "Inference", "Run YOLO on footage"],
-                ["4", "Visualization", "Replay annotated results"],
-              ].map(([n, step, desc]) => (
-                <div
-                  key={n}
-                  style={{
-                    display: "flex",
-                    gap: 12,
-                    marginBottom: 12,
-                    alignItems: "flex-start",
-                  }}
-                >
-                  <div
-                    style={{
-                      width: 26,
-                      height: 26,
-                      borderRadius: "50%",
-                      background: "rgba(0,212,255,0.15)",
-                      border: "1px solid var(--border-bright)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      flexShrink: 0,
-                      fontFamily: "var(--font-display)",
-                      fontSize: 11,
-                      color: "var(--cyan)",
-                      fontWeight: 700,
-                    }}
-                  >
-                    {n}
-                  </div>
-                  <div>
-                    <div
-                      style={{
-                        fontSize: 12,
-                        fontWeight: 600,
-                        color: "#e8f4ff",
-                      }}
-                    >
-                      {step}
-                    </div>
-                    <div
-                      style={{
-                        fontSize: 11,
-                        color: "rgba(200,216,240,0.5)",
-                        marginTop: 2,
-                      }}
-                    >
-                      {desc}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="card">
-              <div className="card-title">Visualization Shortcuts</div>
-              <ShortcutsTable />
-            </div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-label">Version</div>
+          <div className="stat-value text-mono" style={{ fontSize: 14, marginTop: 4 }}>
+            v1.1.0-beta
           </div>
         </div>
       </div>
-    </>
+
+      <div style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr", gap: 24 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+          {/* Main Hero Card */}
+          <div className="card" style={{ padding: 32, background: 'linear-gradient(145deg, rgba(30,41,59,0.7), rgba(15,23,42,0.9))', borderColor: 'rgba(99, 102, 241, 0.4)' }}>
+            <h1 style={{ fontFamily: "var(--font-display)", fontSize: 36, fontWeight: 900, color: "#fff", letterSpacing: -1, marginBottom: 12 }}>
+              TRAFFIC<span style={{ color: "#6366f1" }}>LAB</span> 3D
+            </h1>
+            <p style={{ fontSize: 15, lineHeight: 1.7, color: "rgba(255,255,255,0.65)", maxWidth: 600 }}>
+              AI-powered traffic analysis system built for drone and CCTV footage. Seamlessly integrate YOLO object detection, deep multi-object tracking, 3D vehicle lifting algorithms, and strict satellite map projection protocols.
+            </p>
+          </div>
+
+          {/* Quick Start Steps */}
+          <div className="card">
+            <div className="card-title" style={{ marginBottom: 20 }}>Workflow Initialization</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+              {[
+                ["Location Map", "Initialize workspace with raw CCTV extraction and corresponding high-res satellite imagery.", MapIcon],
+                ["Calibration", "Calculate Homography matrices matching the 2D plane to the Geo-projection.", Database],
+                ["Inference", "Run YOLO bounding-box scanning across footage arrays in real-time.", Eye],
+                ["Visualization", "Compile outputs and replay annotated footage natively within the digital twin engine.", Play]
+              ].map(([step, desc, Icon], i) => (
+                <div key={i} style={{ display: "flex", gap: 16, alignItems: "center", padding: '12px 16px', background: 'var(--bg-elevated)', borderRadius: 12, border: '1px solid var(--border)' }}>
+                  <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(99, 102, 241, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#6366f1' }}>
+                    <Icon size={20} />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 14, fontWeight: 600, color: "#fff", marginBottom: 4 }}>Step 0{i + 1} — {step}</div>
+                    <div style={{ fontSize: 13, color: "rgba(255,255,255,0.5)" }}>{desc}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+          {/* Core Technical Specifications List */}
+          <div className="card">
+            <div className="card-title" style={{ marginBottom: 20 }}>Core Specs & Tooling</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {[
+                ["YOLO Detection", "YOLOv11 fine-tuned over VisDrone dataset"],
+                ["ByteTrack MOT", "Persistent vehicle UUID assignments"],
+                ["3D Object Lifting", "Deep geo-referenced volume mapping"],
+                ["Satellite Projection", "Strict homography-based bird's-eye view mapping"],
+                ["Kinematics Output", "Live speed (km/h) evaluation & trajectory smoothing"],
+              ].map(([title, desc]) => (
+                <div key={title} style={{ padding: '12px 16px', background: 'rgba(255,255,255,0.02)', borderRadius: 10 }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: "#e2e8f0", marginBottom: 4 }}>{title}</div>
+                  <div style={{ fontSize: 12, color: "rgba(255,255,255,0.45)" }}>{desc}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="card">
+            <div className="card-title" style={{ marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
+              <Terminal size={14} style={{ color: '#6366f1' }}/>
+              Keyboard Bindings
+            </div>
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th>Keystroke</th>
+                  <th>Action bound</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["Space", "Pause / Play pipeline playback"],
+                  ["<- / ->", "Step frame manually"],
+                  ["1", "Toggle color-by-ID visualizer"],
+                  ["3", "Toggle 3D wireframe boxes"],
+                  ["F", "Toggle Geo-FOV lens overlay"],
+                ].map(([k, v]) => (
+                  <tr key={k}>
+                    <td>
+                      <code style={{ background: 'rgba(99, 102, 241, 0.2)', color: '#a5b4fc', padding: '2px 6px', borderRadius: 4, fontFamily: "var(--font-mono)", fontSize: 11 }}>
+                        {k}
+                      </code>
+                    </td>
+                    <td style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)' }}>{v}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

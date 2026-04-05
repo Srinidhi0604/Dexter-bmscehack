@@ -68,8 +68,8 @@ export default function LandingPage() {
             <a href="#footer">Company</a>
           </div>
           <div className="lp-nav-actions">
-            <button className="lp-btn-ghost" onClick={() => navigate('/')}>Sign In</button>
-            <button className="lp-btn-primary" onClick={() => navigate('/')}>Open Dashboard</button>
+            <button className="lp-btn-ghost" onClick={() => navigate('/dashboard')}>Sign In</button>
+            <button className="lp-btn-primary" onClick={() => navigate('/dashboard')}>Open Dashboard</button>
           </div>
         </div>
       </nav>
@@ -88,7 +88,7 @@ export default function LandingPage() {
             Detect congestion, prevent accidents, and simulate traffic behavior with an AI-powered digital twin built for smarter cities.
           </p>
           <div className="lp-hero-cta">
-            <button className="lp-cta-primary" onClick={() => navigate('/')}>
+            <button className="lp-cta-primary" onClick={() => navigate('/dashboard')}>
               Launch Workspace
             </button>
             <button className="lp-cta-secondary" onClick={() => document.getElementById('platform').scrollIntoView({ behavior: 'smooth' })}>

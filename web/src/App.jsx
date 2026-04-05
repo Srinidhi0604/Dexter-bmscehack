@@ -8,19 +8,20 @@ import Visualization from './pages/Visualization.jsx'
 import LandingPage from './pages/LandingPage.jsx'
 
 const NAV = [
-  { to: '/',             label: 'Welcome',       icon: Home },
-  { to: '/location',     label: 'Location',      icon: MapPin },
-  { to: '/calibration',  label: 'Calibration',   icon: Target },
-  { to: '/inference',    label: 'Inference',     icon: Zap },
-  { to: '/visualization',label: 'Visualization', icon: Activity },
+  { to: '/dashboard',             label: 'Welcome',       icon: Home },
+  { to: '/dashboard/location',     label: 'Location',      icon: MapPin },
+  { to: '/dashboard/calibration',  label: 'Calibration',   icon: Target },
+  { to: '/dashboard/inference',    label: 'Inference',     icon: Zap },
+  { to: '/dashboard/visualization',label: 'Visualization', icon: Activity },
 ]
 
 export default function App() {
   const location = useLocation();
 
-  if (location.pathname === '/landing') {
+  if (location.pathname === '/' || location.pathname === '/landing') {
     return (
       <Routes>
+        <Route path="/" element={<LandingPage />} />
         <Route path="/landing" element={<LandingPage />} />
       </Routes>
     );
@@ -40,7 +41,7 @@ export default function App() {
             <NavLink
               key={to}
               to={to}
-              end={to === '/'}
+              end={to === '/dashboard'}
               className={({ isActive }) => `nav-item${isActive ? ' active' : ''}`}
             >
               <Icon size={18} className="nav-icon" />
@@ -68,11 +69,11 @@ export default function App() {
         </header>
         <div className="page-body">
           <Routes>
-            <Route path="/"              element={<Welcome />} />
-            <Route path="/location"      element={<Location />} />
-            <Route path="/calibration"   element={<Calibration />} />
-            <Route path="/inference"     element={<Inference />} />
-            <Route path="/visualization" element={<Visualization />} />
+            <Route path="/dashboard"               element={<Welcome />} />
+            <Route path="/dashboard/location"      element={<Location />} />
+            <Route path="/dashboard/calibration"   element={<Calibration />} />
+            <Route path="/dashboard/inference"     element={<Inference />} />
+            <Route path="/dashboard/visualization" element={<Visualization />} />
           </Routes>
         </div>
       </main>
